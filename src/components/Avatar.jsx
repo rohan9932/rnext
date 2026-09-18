@@ -1,9 +1,7 @@
-export default function Avatar({ age }) {
-    return (
-        <div>
-            <div>
-                <h1>Profile</h1>
-            </div>
-        </div>
-    );
+export default function Avatar({ person }) {
+  return (
+    <div>
+      <h1>{person}</h1>
+    </div>
+  );
 }
