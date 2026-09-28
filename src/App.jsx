@@ -1,16 +1,14 @@
 import Form from "./components/Form";
 import "./styles.css";
 
-const statuses = ["empty", "typing", "submitting", "success", "error"];
-
 function App() {
-    return (
-        <div>
-            {statuses.map((status) => (
-                <Form key={status} status={status} />
-            ))}
-        </div>
-    );
+  // const statuses = ["empty", "typing", "submitting", "success", "error"];
+  return (
+    <div>
+      <h2>City quiz</h2>
+      <p>What city is located on two continents?</p>
+      <Form />
+    </div>
+  );
 }
-
 export default App;
