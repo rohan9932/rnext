@@ -1,7 +1,7 @@
 import TravelPlan from "./components/TravelPlan";
 
 function App() {
-    return <TravelPlan />;
+  return <TravelPlan />;
 }
 
 export default App;
