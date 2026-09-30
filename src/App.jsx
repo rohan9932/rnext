@@ -1,58 +1,47 @@
-import { useState } from "react";
+import { useReducer } from "react";
 import AddTask from "./components/AddTask";
 import TaskList from "./components/TaskList";
 import { initialTasks } from "./data/tasks";
+import taskReducer from "./reducer/taskReducer";
 
 export default function App() {
-    const [tasks, setTasks] = useState(initialTasks);
+  const [tasks, dispatch] = useReducer(taskReducer, initialTasks);
 
-    const getNextId = (data) => {
-        const maxId = data.reduce((prev, current) =>
-            prev && prev > current.id ? prev : current.id, 0
-        );
+  //handler
+  function handleAddTask(text) {
+    dispatch({
+      type: "added",
+      id: tasks[tasks.length - 1].id + 1,
+      text: text,
+      done: false,
+    });
+  }
 
-        return maxId + 1;
-    };
+  function handleChangeTask(task) {
+    dispatch({
+      type: "changed",
+      task,
+    });
+  }
 
-    // handlers
-    const handleAddTask = (text) => {
-        setTasks([
-            ...tasks,
-            {
-                id: getNextId(tasks),
-                text: text,
-                done: false,
-            },
-        ]);
-    };
+  function handleDeleteTask(id) {
+    dispatch({ //action object
+      type: "deleted",
+      id,
+    });
+  }
 
-    const handleChangeTask = (task) => {
-        const nextTasks = tasks.map((t) => {
-            if (t.id === task.id) {
-                return task;
-            } else {
-                return t;
-            }
-        });
+  return (
+    <>
+      <h1>Prague itinerary</h1>
 
-        setTasks(nextTasks);
-    };
+      <AddTask onAddTask={handleAddTask} />
 
-    const handleDeleteTask = (taskId) => {
-        setTasks(tasks.filter((t) => t.id !== taskId));
-    };
-
-    return (
-        <>
-            <h1>Prague itinerary</h1>
-
-            <AddTask onAdd={handleAddTask} />
-
-            <TaskList
-                tasks={tasks}
-                onChangeTask={handleChangeTask}
-                onDeleteTask={handleDeleteTask}
-            />
-        </>
-    );
+      <TaskList
+        tasks={tasks}
+        onChangeTask={handleChangeTask}
+        onDeleteTask={handleDeleteTask}
+      />
+    </>
+  );
 }

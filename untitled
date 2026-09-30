@@ -1,0 +1,26 @@
+// //handlers
+// function handleAddTask(text) {
+//   setTasks([
+//     ...tasks,
+//     {
+//       id: tasks[tasks.length - 1].id + 1,
+//       text: text,
+//       done: false,
+//     },
+//   ]);
+// }
+
+// function handleChangeTask(task) {
+//   const nextTasks = tasks.map((t) => {
+//     if (t.id === task.id) {
+//       return task;
+//     } else {
+//       return t;
+//     }
+//   });
+//   setTasks(nextTasks);
+// }
+
+// function handleDeleteTask(id) {
+//   setTasks(tasks.filter((t) => t.id !== id));
+// }
