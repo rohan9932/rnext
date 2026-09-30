@@ -3,9 +3,10 @@ import AddTask from "./components/AddTask";
 import TaskList from "./components/TaskList";
 import { initialTasks } from "./data/tasks";
 import taskReducer from "./reducer/taskReducer";
+import { useImmerReducer } from "use-immer";
 
 export default function App() {
-  const [tasks, dispatch] = useReducer(taskReducer, initialTasks);
+  const [tasks, dispatch] = useImmerReducer(taskReducer, initialTasks);
 
   //handler
   function handleAddTask(text) {
