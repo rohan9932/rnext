@@ -1,52 +1,60 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { useTaskDispatch } from "../contexts/taskContext";
 
-export default function Task({ task, onDeleteTask, onChangeTask }) {
-    const [isEditing, setIsEditing] = useState(false);
+export default function Task({ task }) {
+  const [isEditing, setIsEditing] = useState(false);
+  const dispatch = useTaskDispatch();
 
-    let taskContent;
+  let taskContent;
 
-    if (isEditing) {
-        taskContent = (
-            <>
-                <input
-                    value={task.text}
-                    onChange={(e) => {
-                        onChangeTask({
-                            ...task,
-                            text: e.target.value,
-                        });
-                    }}
-                />
-                <button onClick={() => setIsEditing(false)}>Save</button>
-            </>
-        );
-    } else {
-        taskContent = (
-            <>
-                {task.text}
-                <button onClick={() => setIsEditing(true)}>Edit</button>
-            </>
-        );
-    }
-
-    return (
-        <li>
-            <label>
-                <input
-                    type="checkbox"
-                    checked={task.done}
-                    onChange={(e) => {
-                        onChangeTask({
-                            ...task,
-                            done: e.target.checked,
-                        });
-                    }}
-                />
-
-                {taskContent}
-
-                <button onClick={() => onDeleteTask(task.id)}>Delete</button>
-            </label>
-        </li>
+  if (isEditing) {
+    taskContent = (
+      <>
+        <input
+          value={task.text}
+          onChange={(e) => {
+            dispatch({
+              type: "changed",
+              task: {
+                ...task,
+                text: e.target.value,
+              },
+            });
+          }}
+        />
+        <button onClick={() => setIsEditing(false)}>Save</button>
+      </>
     );
+  } else {
+    taskContent = (
+      <>
+        {task.text}
+        <button onClick={() => setIsEditing(true)}>Edit</button>
+      </>
+    );
+  }
+
+  return (
+    <li>
+      <label>
+        <input
+          type="checkbox"
+          checked={task.done}
+          onChange={(e) => {
+            dispatch({
+              type: "changed",
+              task: {
+                ...task,
+                done: e.target.checked,
+              },
+            });
+          }}
+        />
+
+        {taskContent}
+
+        <button onClick={() => dispatch({ type: "deleted", id: task.id })}>Delete</button>
+      </label>
+    </li>
+  );
 }
