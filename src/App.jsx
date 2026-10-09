@@ -1,12 +1,12 @@
 import "./App.css";
-import Stopwatch from "./components/Counter";
+import Counter from "./components/Counter";
 
 function App() {
-    return (
-        <div>
-            <Stopwatch />
-        </div>
-    );
+  return (
+    <div>
+      <Counter />
+    </div>
+  );
 }
 
 export default App;
