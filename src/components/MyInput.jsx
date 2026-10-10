@@ -1,8 +1,8 @@
 import { forwardRef } from "react";
 
-const MyInput = function (props, ref) {
-    return <input {...props} ref={ref} />;
-};
+function MyInput(props, ref) {
+  return <input ref={ref} {...props} />;
+}
 
 const ForwardedMyInput = forwardRef(MyInput);
 
