@@ -1,9 +1,9 @@
-import Form from "./components/Form";
+import TodoList from "./components/TodoList";
 
 export default function App() {
-    return (
-        <div>
-            <Form />
-        </div>
-    );
+  return (
+    <div>
+      <TodoList />
+    </div>
+  );
 }
