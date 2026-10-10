@@ -1,16 +1,16 @@
 import { useRef } from "react";
 
 export default function Form() {
-    const inputRef = useRef(null);
+  const inputRef = useRef(null);
 
-    const handleFocusInput = () => {
-        inputRef.current.focus();
-    };
+  const handleClick = () => {
+    inputRef.current.focus();
+  };
 
-    return (
-        <>
-            <input ref={inputRef} />
-            <button onClick={handleFocusInput}>Focus the input</button>
-        </>
-    );
+  return (
+    <>
+      <input ref={inputRef} />
+      <button onClick={handleClick}>Focus the input</button>
+    </>
+  );
 }

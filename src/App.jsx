@@ -1,19 +1,23 @@
-import { useState } from "react";
+import { useRef } from "react";
 import "./App.css";
+import Form from "./components/Form";
 import CatFriends from "./components/CatFriends";
 
 function App() {
-    const [show, setShow] = useState(true);
+  const myRef = useRef(null);
 
-    return (
-        <div>
-            {show && <CatFriends />}
-            <br />
-            <button onClick={() => setShow((s) => !s)}>
-                {show ? "Hide" : "Show"}
-            </button>
-        </div>
-    );
+  const handleScroll = () => {
+    myRef.current.textContent = "Hello React";
+  };
+
+  return (
+    <div>
+      <div ref={myRef}>Hello</div>
+      <button onClick={handleScroll}>Scroll to Div</button>
+      <Form />
+      <CatFriends />
+    </div>
+  );
 }
 
 export default App;
