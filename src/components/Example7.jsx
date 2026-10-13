@@ -1,25 +1,21 @@
 import { useState } from "react";
 
 export default function Example7({ onChange }) {
-    const [isOn, setIsOn] = useState(false);
+  const [isOn, setIsOn] = useState(false);
 
-    // 🔴 Avoid: The onChange handler runs too late
-    // useEffect(() => {
-    //     onChange(isOn); // parent ke janaye deya
-    // }, [isOn, onChange]);
+  // 🔴 Avoid: The onChange handler runs too late
+  // useEffect(() => {
+  //     onChange(isOn); // parent ke janaye deya
+  // }, [isOn, onChange]);
 
-    const handleToggle = (nextIsOn) => {
-        onChange(nextIsOn);
-        setIsOn(nextIsOn);
-    };
+  const handleToggle = () => {
+    onChange(!isOn);
+    setIsOn(!isOn);
+  };
 
-    function handleClick() {
-        handleToggle(!isOn);
-    }
-
-    return (
-        <div>
-            <button onClick={handleClick}>Toggle</button>
-        </div>
-    );
+  return (
+    <div>
+      <button onClick={handleToggle}>Toggle</button>
+    </div>
+  );
 }

@@ -1,3 +1,3 @@
 export default function useSomeAPI() {
-    return "some data here";
+  return "some data here";
 }
