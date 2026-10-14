@@ -1,105 +1,105 @@
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: sans-serif;
-    margin: 20px;
-    padding: 0;
+  font-family: sans-serif;
+  margin: 20px;
+  padding: 0;
 }
 
 h1 {
-    margin-top: 0;
-    font-size: 22px;
+  margin-top: 0;
+  font-size: 22px;
 }
 
 h2 {
-    margin-top: 0;
-    font-size: 20px;
+  margin-top: 0;
+  font-size: 20px;
 }
 
 h3 {
-    margin-top: 0;
-    font-size: 18px;
+  margin-top: 0;
+  font-size: 18px;
 }
 
 h4 {
-    margin-top: 0;
-    font-size: 16px;
+  margin-top: 0;
+  font-size: 16px;
 }
 
 h5 {
-    margin-top: 0;
-    font-size: 14px;
+  margin-top: 0;
+  font-size: 14px;
 }
 
 h6 {
-    margin-top: 0;
-    font-size: 12px;
+  margin-top: 0;
+  font-size: 12px;
 }
 
 code {
-    font-size: 1.2em;
+  font-size: 1.2em;
 }
 
 ul {
-    padding-inline-start: 20px;
+  padding-inline-start: 20px;
 }
 
 div {
-    width: 100%;
-    overflow: hidden;
+  width: 100%;
+  overflow: hidden;
 }
 
 nav {
-    text-align: center;
+  text-align: center;
 }
 
 button {
-    margin: 0.25rem;
+  margin: 0.25rem;
 }
 
 ul,
 li {
-    list-style: none;
-    white-space: nowrap;
+  list-style: none;
+  white-space: nowrap;
 }
 
 li {
-    display: inline;
-    padding: 0.5rem;
+  display: inline;
+  padding: 0.5rem;
 }
 
 .product {
-    padding: 10px;
-    border: 1px solid lightslategray;
-    border-radius: 5px;
-    background-color: antiquewhite;
+  padding: 10px;
+  border: 1px solid lightslategray;
+  border-radius: 5px;
+  background-color: antiquewhite;
 }
 
 .notification {
-    margin-top: 20px;
-    background-color: aquamarine;
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer;
+  margin-top: 20px;
+  background-color: aquamarine;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
 }
 .result {
-    margin-top: 20px;
-    background-color: gainsboro;
-    padding: 10px;
-    border-radius: 5px;
-    display: flex;
-    gap: 10px;
+  margin-top: 20px;
+  background-color: gainsboro;
+  padding: 10px;
+  border-radius: 5px;
+  display: flex;
+  gap: 10px;
 }
 .round {
-    background-color: aqua;
-    border-radius: 25px;
-    padding: 5px 8px;
+  background-color: aqua;
+  border-radius: 25px;
+  padding: 5px 8px;
 }
 
 .gold {
-    background-color: gold;
-    border-radius: 25px;
-    padding: 5px 8px;
+  background-color: gold;
+  border-radius: 25px;
+  padding: 5px 8px;
 }

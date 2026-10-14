@@ -3,39 +3,35 @@ import Page from "./components/Page";
 import ShoppingCartContext from "./contexts/shoppingCartContext";
 
 const items = [
-    {
-        id: 1,
-        title: "Product 1",
-    },
+  {
+    id: 1,
+    title: "Product 1",
+  },
 ];
 
 export default function App() {
-    const [page, setPage] = useState("/home");
-    const [cartItems, setCartItems] = useState(items);
+  const [page, setPage] = useState("/home");
+  const [cartItems, setCartItems] = useState(items);
 
-    const handlePageChange = () => {
-        setPage("/cart");
-    };
+  const handlePageChange = () => {
+    setPage("/cart");
+  };
 
-    const addItem = () => {
-        setCartItems([
-            ...cartItems,
-            {
-                id: 2,
-                title: "Product 2",
-            },
-        ]);
-    };
+  const addItem = () => {
+    setCartItems([
+      ...cartItems,
+      {
+        id: 2,
+        title: "Product 2",
+      },
+    ]);
+  };
 
-    return (
-        <div>
-            <ShoppingCartContext.Provider value={cartItems}>
-                <Page
-                    url={page}
-                    onPageChange={handlePageChange}
-                    onAddItems={addItem}
-                />
-            </ShoppingCartContext.Provider>
-        </div>
-    );
+  return (
+    <div>
+      <ShoppingCartContext.Provider value={cartItems}>
+        <Page url={page} onPageChange={handlePageChange} onAddItems={addItem} cartItems={cartItems} />
+      </ShoppingCartContext.Provider>
+    </div>
+  );
 }

@@ -1,32 +1,35 @@
-import {
-    useContext,
-    useEffect,
-    experimental_useEffectEvent as useEffectEvent,
-} from "react";
-import ShoppingCartContext from "../contexts/shoppingCartContext";
+import { useContext, useEffect, useEffectEvent } from "react";
 import logVisit from "../utils/logVisit";
+import ShoppingCartContext from "../contexts/shoppingCartContext";
 
-export default function Page({ url, onPageChange, onAddItems }) {
-    const items = useContext(ShoppingCartContext);
-    const numberOfItems = items.length;
+export default function Page({ url, onPageChange, onAddItems, cartItems }) {
+  const items = useContext(ShoppingCartContext);
+  const numberOfItems = items.length;
 
-    const onVisit = useEffectEvent((visitedUrl) => {
-        logVisit(visitedUrl, numberOfItems);
-    });
+  // handles number of items as non reactive
+  const onVisit = useEffectEvent((url) => {
+    logVisit(url, numberOfItems);
+  });
 
-    useEffect(() => {
-        onVisit(url);
-        // logVisit(url, numberOfItems);
-    }, [url]);
+  // here the effect would react on url and num of items also
+  // but we don't want that. we only want log for the page not for the number of items change
+  // we want log for only url change -> we will use EffectEvent
+  useEffect(() => {
+    onVisit(url);
+  }, [url]);
 
-    return (
-        <div>
-            <div>This is page</div>
-            <div>
-                <button onClick={onPageChange}>Change page</button>
-                <button onClick={onAddItems}>Add new Item</button>
-            </div>
-            <div>Total items in cart {numberOfItems}</div>
-        </div>
-    );
+  return (
+    <div>
+      <button onClick={onPageChange}>Change Page</button>
+      <button onClick={onAddItems}>Add Item</button>
+      <div>This is page</div>
+      {
+        cartItems.map((item) => (
+          <div key={item.id}>
+            <span>{item.title}</span>
+          </div>
+        ))
+      }
+    </div>
+  );
 }
