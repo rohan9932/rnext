@@ -1,14 +1,14 @@
 export default function createConnection(serverUrl, roomId) {
-    return {
-        connect: () => {
-            console.log(`Connected ${serverUrl} to room ${roomId}`);
-        },
-        disconnect: () => {
-            console.log(`Disconnected ${serverUrl} from room ${roomId}`);
-        },
-    };
+  return {
+    connect: () => {
+      console.log(`Connected ${serverUrl} to room ${roomId}`);
+    },
+    disconnect: () => {
+      console.log(`Disconnected ${serverUrl} from room ${roomId}`);
+    },
+  };
 }
 
-export function logVisit(roomId) {
-    console.log(`User visited room ${roomId}`);
+export function logVisit(roomId, serverUrl) {
+  console.log(`User visited room ${roomId} in the server ${serverUrl}`);
 }
