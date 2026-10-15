@@ -1,7 +1,7 @@
 import useOnlineStatus from "../hooks/useOnlineStatus";
 
 export default function StatusBar() {
-    const isOnline = useOnlineStatus();
+  const isOnline = useOnlineStatus();
 
-    return <h1>{isOnline ? "✅ Online" : "❌ Disconnected"}</h1>;
+  return <h1>{isOnline ? "✅ Online" : "❌ Disconnected"}</h1>;
 }
