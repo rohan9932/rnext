@@ -7,105 +7,100 @@ import Posts from "./components/Posts";
 // import initialPosts from "./data/db.js";
 
 export default function App() {
-    const [posts, setPosts] = useState([]);
-    const [post, setPost] = useState(null); // post I am editing
-    const [error, setError] = useState(null);
+  const [posts, setPosts] = useState([]);
+  const [post, setPost] = useState(null); // post I am editing
+  const [error, setError] = useState(null);
 
-    const handleAddPost = async (newPost) => {
-        try {
-            const id = posts.length
-                ? Number(posts[posts.length - 1].id) + 1
-                : 1;
+  const handleAddPost = async (newPost) => {
+    try {
+      const id = posts.length ? Number(posts[posts.length - 1].id) + 1 : 1;
 
-            const finalPost = {
-                id: id.toString(),
-                ...newPost,
-            };
+      const res = await api.post("/posts", {
+        id: id.toString(),
+        ...newPost,
+      });
 
-            const response = await api.post("/posts", finalPost);
+      // console.log(res);
 
-            setPosts([...posts, response.data]);
-        } catch (err) {
-            setError(err.message);
+      setPosts([...posts, res.data]);
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  const handleDeletePost = async (postId) => {
+    if (confirm("Are you sure you want to delete the post?")) {
+      try {
+        await api.delete(`/posts/${postId}`);
+        const newPosts = posts.filter((post) => post.id !== postId);
+        setPosts(newPosts);
+      } catch (err) {
+        setError(err.message);
+      }
+    } else {
+      console.log("You chose not to delete the post!");
+    }
+  };
+
+  const handleEditPost = async (updatedPost) => {
+    try {
+      const res = await api.patch(`/posts/${updatedPost.id}`, updatedPost);
+
+      const updatedPosts = posts.map((post) =>
+        post.id === res.data.id ? res.data : post,
+      );
+
+      setPosts(updatedPosts);
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const res = await api.get("/posts");
+
+        if (res && res.data) {
+          setPosts(res.data);
         }
+      } catch (err) {
+        setError(err.message);
+      }
     };
 
-    const handleDeletePost = async (postId) => {
-        if (confirm("Are you sure you want to delete the post?")) {
-            try {
-                await api.delete(`/posts/${postId}`);
-                const newPosts = posts.filter((post) => post.id !== postId);
-                setPosts(newPosts);
-            } catch (err) {
-                setError(err.message);
-            }
-        } else {
-            console.log("You chose not to delete the post!");
-        }
-    };
+    fetchPosts();
+  }, []);
 
-    const handleEditPost = async (updatedPost) => {
-        try {
-            const response = await api.patch(
-                `/posts/${updatedPost.id}`,
-                updatedPost
-            );
+  return (
+    <div>
+      <div>
+        <h1>API Request with api</h1>
+        <hr />
 
-            const updatedPosts = posts.map((post) =>
-                post.id === response.data.id ? response.data : post
-            );
-
-            setPosts(updatedPosts);
-        } catch (err) {
-            setError(err.message);
-        }
-    };
-
-    useEffect(() => {
-        const fetchPosts = async () => {
-            try {
-                const response = await api.get("/posts");
-
-                if (response && response.data) {
-                    setPosts(response.data);
-                }
-            } catch (err) {
-                setError(err.message);
-            }
-        };
-
-        fetchPosts();
-    }, []);
-
-    return (
         <div>
-            <div>
-                <h1>API Request with Axios</h1>
-                <hr />
+          <Posts
+            posts={posts}
+            onDeletePost={handleDeletePost}
+            onEditClick={setPost}
+          />
 
-                <div>
-                    <Posts
-                        posts={posts}
-                        onDeletePost={handleDeletePost}
-                        onEditClick={setPost}
-                    />
+          <hr />
 
-                    <hr />
+          {!post ? (
+            <AddPost onAddPost={handleAddPost} />
+          ) : (
+            <EditPost post={post} onEditPost={handleEditPost} />
+          )}
 
-                    {!post ? (
-                        <AddPost onAddPost={handleAddPost} />
-                    ) : (
-                        <EditPost post={post} onEditPost={handleEditPost} />
-                    )}
-
-                    {error && (
-                        <>
-                            <hr />
-                            <div className="error">{error}</div>
-                        </>
-                    )}
-                </div>
-            </div>
+          {error && (
+            <>
+              <hr />
+              <div className="error">{error}</div>
+            </>
+          )}
         </div>
-    );
+      </div>
+    </div>
+  );
 }
