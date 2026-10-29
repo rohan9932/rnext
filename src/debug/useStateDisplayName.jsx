@@ -1,7 +1,7 @@
-import { useDebugValue, useState } from "react";
+import { useState, useDebugValue } from "react";
 
-export function useStateDisplayName(initialValue, displayName) {
-    const [value, setValue] = useState(initialValue);
-    useDebugValue(`${displayName} for ${initialValue}`);
-    return [value, setValue];
+export default function useStateDisplayName(intialVal, displayName) {
+  const [value, setValue] = useState(intialVal);
+  useDebugValue(`${displayName} for ${intialVal}`); // This will only work in the react dev tools, not in the console
+  return [value, setValue];
 }
