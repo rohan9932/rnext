@@ -1,68 +1,89 @@
-import { useEffect, useRef, useState } from "react";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { useEffect, useRef } from "react";
 import Product from "./Product";
 
-const productsPerPage = 10;
-
 export default function ProductList() {
-    const [products, setProducts] = useState([]);
-    const [page, setPage] = useState(0);
-    const [hasMore, setHasMore] = useState(true);
-    const loaderRef = useRef(null);
+  const loadRef = useRef(null);
 
-    useEffect(() => {
-        const fetchProducts = async () => {
-            const response = await fetch(
-                `https://dummyjson.com/products?limit=${productsPerPage}&skip=${
-                    page * productsPerPage
-                }`
-            );
-            const data = await response.json();
+  const {
+    data,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    status,
+  } = useInfiniteQuery({
+    queryKey: ["products"],
+    queryFn: async ({ pageParam }) => {
+      const response = await fetch(
+        `https://dummyjson.com/products?limit=10&skip=${pageParam}`,
+      );
+      const data = await response.json();
+      return data;
+    },
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => {
+      if (lastPage.skip + lastPage.limit < lastPage.total) {
+        return lastPage.skip + lastPage.limit;
+      }
+      return undefined; // tells the query that there are no data
+    },
+  });
 
-            if (data.products.length === 0) {
-                setHasMore(false);
-            } else {
-                setProducts((prevProducts) => [
-                    ...prevProducts,
-                    ...data.products,
-                ]);
-                setPage((prevPage) => prevPage + 1);
-            }
-        };
+  useEffect(() => {
+    const onIntersection = (items) => {
+      const loaderItem = items[0];
 
-        const onIntersection = (items) => {
-            const loaderItem = items[0];
+      if (loaderItem.isIntersecting && hasNextPage && !isFetchingNextPage) {
+        fetchNextPage();
+      }
+    };
+    //observer
+    const observer = new IntersectionObserver(onIntersection);
 
-            if (loaderItem.isIntersecting && hasMore) {
-                fetchProducts();
-            }
-        };
+    if (observer && loadRef.current) {
+      observer.observe(loadRef.current);
+    }
 
-        const observer = new IntersectionObserver(onIntersection);
+    return () => {
+      observer.disconnect();
+    };
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
-        if (observer && loaderRef.current) {
-            observer.observe(loaderRef.current);
-        }
 
-        // cleanup
-        return () => {
-            if (observer) observer.disconnect();
-        };
-    }, [hasMore, page]);
+  if (status === "pending") {
+    return <div>Loading...</div>;
+  }
 
-    return (
-        <div>
-            <div>Product List</div>
+  if (status === "error") {
+    return <div>Error: {error.message}</div>;
+  }
 
-            {products.map((product) => (
-                <Product
-                    title={product.title}
-                    price={product.price}
-                    thumbnail={product.thumbnail}
-                    key={product.id}
-                />
-            ))}
+  return (
+    <div>
+      <div>ProductList</div>
 
-            {hasMore && <div ref={loaderRef}>Loading more products...</div>}
+      {data?.pages.map((page, i) => (
+        <div key={i}>
+          {page.products.map((product) => (
+            <Product
+              title={product.title}
+              price={product.price}
+              thumbnail={product.thumbnail}
+              key={product.id}
+            />
+          ))}
         </div>
-    );
+      ))}
+
+      {/* will track this div */}
+      <div ref={loadRef}>
+        {isFetchingNextPage
+          ? "Loading more products..."
+          : hasNextPage
+            ? "Scroll down for more"
+            : "No more products to show."}
+      </div>
+    </div>
+  );
 }
