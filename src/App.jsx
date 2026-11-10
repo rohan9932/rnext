@@ -1,58 +1,51 @@
-import { loremIpsum } from "lorem-ipsum";
-import { AutoSizer, List } from "react-virtualized";
 import "./App.css";
+import { loremIpsum } from "lorem-ipsum";
 import ListItem from "./components/ListItem";
+import { List, AutoSizer } from "react-virtualized";
 
 export default function App() {
-    const rowCount = 5000;
-    // const listHeight = 700;
-    const rowHeight = 50;
-    // const rowWidth = 900;
+  const rowCnt = 5000;
+  const listHeight = 900;
+  const rowHeight = 50;
+  const rowWidth = 1650;
 
-    const list = Array(rowCount)
-        .fill()
-        .map((val, id) => {
-            return {
-                id,
-                name: "Sumit Saha",
-                image: "https://placehold.co/40",
-                text: loremIpsum({
-                    count: 1,
-                    units: "sentences",
-                    sentenceLowerBound: 4,
-                    sentenceUpperBound: 8,
-                }),
-            };
-        });
+  const list = Array(rowCnt).fill().map((val, id) => {
+    return {
+      id,
+      name: "Rohan Rahim",
+      text: loremIpsum({ 
+        count: 1, 
+        units: "sentences",
+        sentenceLowerBound: 4,
+        sentenceUpperBound: 8
+      }),
+      image: `https://placehold.co/40?text=R${id}`,
+    }
+  });
 
-    function renderRow({ index, key, style }) {
-        return (
-            <ListItem
+  return (
+    <div className="list">
+      <AutoSizer>
+        {/* automatically adjusts the widht and height */}
+        {({ width, height }) => (
+          <List
+            width={width}
+            height={height}
+            rowHeight={rowHeight}
+            rowCount={rowCnt}
+            rowRenderer={({ key, index, style }) => (
+              <ListItem
                 key={key}
                 name={list[index].name}
                 text={list[index].text}
                 image={list[index].image}
                 style={style}
-            />
-        );
-    }
-
-    return (
-        <div className="App">
-            <div className="list">
-                <AutoSizer>
-                    {({ width, height }) => (
-                        <List
-                            width={width}
-                            height={height}
-                            rowHeight={rowHeight}
-                            rowCount={rowCount}
-                            rowRenderer={renderRow}
-                            overscanColumnCount={5}
-                        />
-                    )}
-                </AutoSizer>
-            </div>
-        </div>
-    );
+                overscanRowCount={10}
+              />
+            )}
+          />
+        )}
+      </AutoSizer>
+    </div>
+  );
 }
