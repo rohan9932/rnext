@@ -1,27 +1,30 @@
-import React, {useState} from 'react'
-import ModalContent from '../ModalContent';
-import Portal from '../../Portal';
+import { useState } from "react";
+import Portal from "../../Portal";
+import ModalContent from "../ModalContent";
 const PortalModal = () => {
-    const [showModal, setShowModal] = useState(false);
-    const handleClick = () => {
-        console.log('I am clicked');
-    }
+  const [showModal, setShowModal] = useState(false);
+  const handleClick = () => {
+    console.log("I am clicked");
+  };
   return (
-    <div className="relative border border-black mb-5 p-2 w-64 h-20 overflow-hidden" onClick={handleClick}>
-        <button
-            className="bg-black text-white p-1 border rounded-md"
-            onClick={() => setShowModal(true)}
-            >Modal using React Portal</button>
+    <div
+      className="relative border border-black mb-5 p-2 w-64 h-20 overflow-hidden"
+      onClick={handleClick}
+    >
+      <button
+        className="bg-black text-white p-1 border rounded-md"
+        onClick={() => setShowModal(true)}
+      >
+        Modal using React Portal
+      </button>
 
-        {
-            showModal && (
-                <Portal>
-                    <ModalContent onClose={() => setShowModal(false)} />
-                </Portal>
-            )
-        }
+      {showModal && (
+        <Portal>
+          <ModalContent onClose={() => setShowModal(false)} />
+        </Portal>
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default PortalModal
+export default PortalModal;
