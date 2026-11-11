@@ -1,3 +1,8 @@
+export const metadata = {
+  title: "Analytics",
+  description: "Introduction to Next.js",
+};
+
 export default function Analytics() {
   return (
     <div className="h-dvh w-full flex items-center justify-center">
