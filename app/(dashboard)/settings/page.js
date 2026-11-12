@@ -17,6 +17,7 @@ export default function Settings() {
       <Suspense fallback={<div>Loading...</div>}>
         <SortProducts />
       </Suspense>
+      <p>Route grouped analytics and settings</p>
     </div>
   );
 }
