@@ -1,0 +1,1 @@
+import{j as e}from"./index-kg-bvMo8.js";import{C as a}from"./circle-Bez8KZLM.js";const t=()=>{const o=["#A63578","teal","#000000","orange","red","green"];return e.jsxs(e.Fragment,{children:[e.jsx("h1",{children:"Color Demo"}),e.jsx("div",{className:"demo",children:o.map((r,s)=>e.jsx(a,{color:r,fill:r,size:128},s))})]})};export{t as default};

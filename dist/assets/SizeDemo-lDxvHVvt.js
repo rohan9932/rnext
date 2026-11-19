@@ -1,0 +1,1 @@
+import{j as e}from"./index-kg-bvMo8.js";import{C as i}from"./circle-Bez8KZLM.js";const m=()=>{const s=["16","32","48","64","96","128","144"];return e.jsxs(e.Fragment,{children:[e.jsx("h1",{children:"Size Demo"}),e.jsx("div",{className:"demo",children:s.map((r,o)=>e.jsx(i,{color:"black",fill:"black",size:r},o))})]})};export{m as default};
