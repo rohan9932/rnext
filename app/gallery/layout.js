@@ -1,8 +1,8 @@
 export default function GalleryLayout({ children, modal }) {
-    return (
-        <>
-            {modal}
-            {children}
-        </>
-    );
+  return (
+    <div>
+      {modal}
+      {children}
+    </div>
+  );
 }
