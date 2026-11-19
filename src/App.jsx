@@ -20,7 +20,6 @@ export default function App() {
     <div>
       <div>
         <h1>React Lazy load explained</h1>
-
         <div>
           {demos.map((demo) => (
             <button key={demo.name} onClick={() => selectDemo(demo.file)}>
