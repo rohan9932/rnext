@@ -1,38 +1,28 @@
 import comments from "@/app/data/comments";
-import { redirect } from "next/navigation";
 
 export async function GET(_request, { params }) {
-    const commentId = params.id;
-
-    if (parseInt(commentId) > comments.length) {
-        redirect("/api/comments");
-    }
-
-    const comment = comments.find(
-        (comment) => comment.id === parseInt(commentId)
-    );
-
-    return Response.json(comment);
+  const comment = comments.find((c) => c.id === parseInt(params.id));
+  if (!comment) {
+    return new Response("Comment not found", { status: 404 });
+  }
+  return Response.json(comment);
 }
 
 export async function PATCH(request, { params }) {
-    const comment = await request.json();
-    const commentId = params.id;
-    const commentIndex = comments.findIndex(
-        (comment) => comment.id === parseInt(commentId)
-    );
-    comments[commentIndex].text = comment.text;
-
-    return Response.json(comments[commentIndex]);
+  const comment = await request.json();
+  const index = comments.findIndex((c) => c.id === parseInt(params.id));
+  if (index === -1) {
+    return new Response("Comment not found", { status: 404 });
+  }
+  comments[index].text = comment.text;
+  return Response.json(comment);
 }
 
 export async function DELETE(request, { params }) {
-    const commentId = params.id;
-    const commentIndex = comments.findIndex(
-        (comment) => comment.id === parseInt(commentId)
-    );
-    const commentToDelete = comments[commentIndex];
-    comments.splice(commentIndex, 1);
-
-    return Response.json(commentToDelete);
+  const index = comments.findIndex((c) => c.id === parseInt(params.id));
+  if (index === -1) {
+    return new Response("Comment not found", { status: 404 });
+  }
+  comments.splice(index, 1);
+  return new Response(null, { status: 204 });
 }
