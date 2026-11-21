@@ -5,37 +5,39 @@ import { NextResponse } from "next/server";
 let defaultLocale = "en";
 let locales = ["en", "bn"];
 
+// detects user's preferred locale
 function getLocale(request) {
-    const acceptedLanguage =
-        request.headers.get("accept-language") ?? undefined;
-    const headers = { "accept-language": acceptedLanguage };
-    const languages = new Negotiator({ headers }).languages();
+  const acceptedLanguage = request.headers.get("accept-language") ?? undefined;
+  const headers = { "accept-language": acceptedLanguage };
+  // Passing `locales` to Negotiator ensures unsupported '*' tags aren't passed to Intl.getCanonicalLocales
+  const languages = new Negotiator({ headers }).languages(locales);
 
-    return match(languages, locales, defaultLocale); // en or bn
+  return match(languages, locales, defaultLocale);
 }
 
 export function middleware(request) {
-    // get the pathname from request url
-    const pathname = request.nextUrl.pathname;
+  const pathname = request.nextUrl.pathname;
 
-    const pathNameIsMissingLocale = locales.every(
-        (locale) =>
-            !pathname.startsWith(`/${locale}`) &&
-            !pathname.startsWith(`/${locale}/`)
-    );
+  // Check if pathname has a supported locale
+  const pathnameIsMissingLocale = locales.every(
+    (locale) =>
+      !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`
+  );
 
-    if (pathNameIsMissingLocale) {
-        // detect user's preference & redirect with a locale with a path eg: /en/about
-        const locale = getLocale(request);
+  if (pathnameIsMissingLocale) {
+    const locale = getLocale(request);
 
-        return NextResponse.redirect(
-            new URL(`/${locale}/${pathname}`, request.url)
-        );
-    }
+    // NextResponse.redirect requires an absolute URL
+    request.nextUrl.pathname = `/${locale}${pathname}`;
+    return NextResponse.redirect(request.nextUrl);
+  }
 
-    return NextResponse.next();
+  return NextResponse.next();
 }
 
 export const config = {
-    matcher: ["/((?!_next).*)"],
+  matcher: [
+    // Skip Next.js internals (_next), api routes, and static asset files
+    "/((?!api|_next/static|_next/image|favicon.ico|.*\\..*).*)",
+  ],
 };
